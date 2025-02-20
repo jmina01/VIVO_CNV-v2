@@ -14,6 +14,7 @@ Create and activate virtual environment:
 ```bash
 virtualenv venv
 source venv/bin/activate
+.\venv\Scripts\Activate
 ```
 
 Install Python dependencies:
