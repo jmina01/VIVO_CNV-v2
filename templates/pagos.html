@@ -1,0 +1,618 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Contenido principal: Tabla + Botones -->
+<div class="space-y-4 flex flex-col">
+  <!-- Filter Group -->
+  <div class="grid md:grid-cols-2 gap-y-2 md:gap-y-0 md:gap-x-5">
+    <div>
+      <!-- Search Input -->
+      <div class="relative">
+        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
+          <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-400" 
+               xmlns="http://www.w3.org/2000/svg"
+               width="24" height="24" viewBox="0 0 24 24" fill="none" 
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          class="py-1.5 ps-10 pe-8 block w-full bg-gray-100 border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600" 
+          placeholder="Search contacts">
+        <div class="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
+          <button type="button" 
+                  class="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500" 
+                  aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m15 9-6 6"/>
+              <path d="m9 9 6 6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- End Search Input -->
+    </div>
+    <!-- End Col -->
+
+    <div class="flex flex-wrap md:justify-end items-center gap-2">
+      <!-- Botón "Editar" de ejemplo -->
+      <button type="button" 
+              class="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              data-hs-overlay="#modal-editar-cliente">
+              <!-- Ícono de editar (pencil) -->
+        <svg class="hidden sm:block shrink-0 size-3.5" 
+             xmlns="http://www.w3.org/2000/svg" 
+             width="24" height="24" viewBox="0 0 24 24" fill="none" 
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5 20.5 7.5 7.5 20.5H3.5V16.5Z"/>
+        </svg>
+        Editar
+      </button>
+
+      <!-- Botón "Nuevo pago" -->
+      <!-- data-hs-overlay para abrir el modal con Preline -->
+      <button type="button" 
+              class="py-1.5 px-2.5 inline-flex items-center gap-x-1.5 text-xs font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-700"
+              data-hs-overlay="#modal-nuevo-pago">
+        <svg class="hidden sm:block shrink-0 size-3.5" 
+             xmlns="http://www.w3.org/2000/svg" 
+             width="24" height="24" viewBox="0 0 24 24" fill="none" 
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/>
+          <path d="M12 5v14"/>
+        </svg>
+        Nuevo pago
+      </button>
+      <!-- End Button Nuevo pago -->
+    </div>
+    <!-- End Col -->
+  </div>
+  <!-- End Filter Group -->
+
+  <!-- Table Section -->
+  <div class="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+    <div class="min-w-full inline-block align-middle">
+      <!-- Table -->
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700 text-sm">
+        <thead>
+          <tr class="border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+            <th scope="col" class="px-3 py-2 text-start">
+              <input type="checkbox" 
+                     class="shrink-0 accent-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:focus:ring-offset-gray-800">
+            </th>
+            <th scope="col" class="px-4 py-2 min-w-[120px]">
+              id
+            </th>
+            <th scope="col" class="px-4 py-2 min-w-[120px]">
+              Nombre
+            </th>
+            <th scope="col" class="px-4 py-2 min-w-[200px]">
+              Desarrollo
+            </th>
+            <th scope="col" class="px-4 py-2 min-w-[10px]">
+              Direccion
+            </th>
+            <th scope="col" class="px-4 py-2 min-w-[120px]">
+              Financiamiento
+            </th>
+            <th scope="col" class="px-4 py-2 min-w-[180px]">
+              Fecha
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+          <!-- Fila 1 -->
+          <tr class="divide-x divide-gray-200 dark:divide-neutral-700">
+            <td class="px-3 py-1">
+              <input type="checkbox" 
+                     class="shrink-0 accent-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:focus:ring-offset-gray-800">
+            </td>
+            <td class="px-4 py-1">
+              <span class="font-medium text-gray-800 dark:text-neutral-200">
+                1
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                ESTE ES UN NOMBRE COMPLETO
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                ECOZ
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                000-0000-000-000
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                INFONA
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                01/01/2025
+              </span>
+            </td>
+          </tr>
+
+          <!-- Fila 2 -->
+          <tr class="divide-x divide-gray-200 dark:divide-neutral-700">
+            <td class="px-3 py-1">
+              <input type="checkbox" 
+                     class="shrink-0 accent-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-600 dark:focus:ring-offset-gray-800">
+            </td>
+            <td class="px-4 py-1">
+              <span class="font-medium text-gray-800 dark:text-neutral-200">
+                Rachel Doe
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                Prosperops
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                2952 S Peoria Ave, 74114
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                rachel@site.so
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                +297 000-00-00
+              </span>
+            </td>
+            <td class="px-4 py-1">
+              <span class="text-gray-600 dark:text-neutral-400">
+                01/01/2025
+              </span>
+            </td>
+          </tr>
+
+          <!-- ... más filas ... -->
+        </tbody>
+      </table>
+      <!-- End Table -->
+    </div>
+  </div>
+  <!-- End Table Section -->
+</div>
+<!-- End contenido principal -->
+
+
+
+
+
+
+
+
+
+
+<!-- MODAL - NUEVO PAGO -->
+<!-- 
+  Usamos el sistema de Overlay de Preline (data-hs-overlay="#ID")
+  y un contenedor con ID para que sea un modal animado.
+-->
+
+<div id="modal-nuevo-pago"
+     class="hs-overlay hidden w-full h-full fixed inset-0 z-[60] overflow-y-auto
+            hs-overlay-open:opacity-100 hs-overlay-open:mt-0
+            transition-all duration-300 transform opacity-0 mt-5
+            flex items-center justify-center">
+  <div class="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm rounded-xl max-w-2xl w-full mx-4 p-6
+              transition-transform hs-overlay-open:translate-y-0 translate-y-4">
+
+    <!-- Título / Descripción -->
+    <div class="my-3 flex gap-x-3">
+      <svg class="shrink-0 size-10 text-gray-400 dark:text-neutral-600"
+           xmlns="http://www.w3.org/2000/svg"
+           width="24" height="24" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="10" r="3" />
+        <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+      </svg>
+      <div class="grow">
+        <h1 class="font-semibold text-xl text-gray-800 dark:text-neutral-200">
+          Registrar pago
+        </h1>
+        <p class="text-sm text-gray-500 dark:text-neutral-500">
+        
+        </p>
+      </div>
+      <!-- Botón Cerrar (opcional) -->
+      <button type="button"
+              class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-white transition"
+              data-hs-overlay="#modal-nuevo-pago">
+        <!-- ícono x para cerrar -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Formulario "Nuevo pago" -->
+    <form>
+      <div class="space-y-5">
+        <!-- Campo: Nombre -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="nombre" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Nombre
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="nombre" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="James Davidson" value="">
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+        
+
+
+        <!-- Campo: Fecha -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="fecha-escritura" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Fecha
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="fecha-escritura" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="dd/mm/aaaa" value="">
+          </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+        <!-- Campo: Metodo de Pago -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="Desarrollo" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Metodo de pago
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <select id="Desarrollo"
+                    class="block w-full py-2 px-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-800
+                           dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                           appearance-none">
+              <option value="">Elige</option>
+              <option value="aloja">EFECTIVO</option>
+              <option value="centenario">SPEI</option>
+              <option value="encanto">DEPOSITO</option>
+              <option value="paraisomaya">INFONAVIT</option>
+              <option value="puertomaya">CLIP</option>
+              <option value="sanmarcos">ECOLLECT</option>
+            </select>
+          </div>
+        </div>
+
+          <!-- Formulario "Nuevo pago" -->
+    <form>
+        <div class="space-y-5">
+          <!-- Campo: Nombre -->
+          <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+            <div class="sm:col-span-3">
+              <label for="nombre" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+                Importe
+              </label>
+            </div>
+            <div class="sm:col-span-9">
+              <input id="nombre" type="text"
+                     class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                            focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                            dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                     placeholder="James Davidson" value="">
+            </div>
+          </div>
+
+
+      <!-- Footer Botones -->
+      <div class="pt-4 flex justify-end gap-x-2">
+        <button type="button"
+                class="py-2 px-3 inline-flex justify-center items-center bg-white border border-gray-200 text-gray-800 text-sm font-medium rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                data-hs-overlay="#modal-nuevo-pago">
+          Cancelar
+        </button>
+        <button type="button"
+                class="py-2 px-3 inline-flex justify-center items-center gap-x-2 bg-blue-600 border border-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-500">
+          Agregar
+        </button>
+      </div>
+      <!-- End Footer -->
+    </form>
+    <!-- End Formulario Nuevo Cliente -->
+  </div>
+</div>
+<!-- END MODAL NUEVO CLIENTE -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MODAL - EDITAR CLIENTE -->
+<!-- 
+  Usamos el sistema de Overlay de Preline (data-hs-overlay="#ID")
+  y un contenedor con ID para que sea un modal animado.
+-->
+
+<div id="modal-editar-cliente"
+     class="hs-overlay hidden w-full h-full fixed inset-0 z-[60] overflow-y-auto
+            hs-overlay-open:opacity-100 hs-overlay-open:mt-0
+            transition-all duration-300 transform opacity-0 mt-5
+            flex items-center justify-center">
+  <div class="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm rounded-xl max-w-2xl w-full mx-4 p-6
+              transition-transform hs-overlay-open:translate-y-0 translate-y-4">
+
+    <!-- Título / Descripción -->
+    <div class="my-3 flex gap-x-3">
+      <svg class="shrink-0 size-10 text-gray-400 dark:text-neutral-600"
+           xmlns="http://www.w3.org/2000/svg"
+           width="24" height="24" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="10" r="3" />
+        <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+      </svg>
+      <div class="grow">
+        <h1 class="font-semibold text-xl text-gray-800 dark:text-neutral-200">
+          Editar cliente
+        </h1>
+        <p class="text-sm text-gray-500 dark:text-neutral-500">
+          Modifica la informacion de un cliente de convivencias.
+        </p>
+      </div>
+      <!-- Botón Cerrar (opcional) -->
+      <button type="button"
+              class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-white transition"
+              data-hs-overlay="#modal-editar-cliente">
+        <!-- ícono x para cerrar -->
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Formulario "Nuevo Cliente" -->
+    <form>
+      <div class="space-y-5">
+        <!-- Campo: Nombre -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="nombre" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Nombre
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="nombre" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="James Davidson" value="">
+          </div>
+        </div>
+
+        <!-- Campo: Escritura -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="escritura" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Escritura
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="escritura" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="..." value="">
+          </div>
+        </div>
+
+        <!-- Campo: Fecha de Escritura -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="fecha-escritura" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Fecha de Escritura
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="fecha-escritura" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="dd/mm/aaaa" value="">
+          </div>
+        </div>
+
+        <!-- Campo: Credito -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="credito" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Credito
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="credito" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="Monto del crédito" value="">
+          </div>
+        </div>
+
+        <!-- Campo: Obligacion -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="obligacion" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Obligacion
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="obligacion" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="Detalle de obligación" value="">
+          </div>
+        </div>
+
+        <!-- Campo: idEK -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="idek" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              idEK
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="idek" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="Código EK" value="">
+          </div>
+        </div>
+
+        <!-- Campo: Ubicacion -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="ubicacion" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Ubicacion
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input id="ubicacion" type="text"
+                   class="py-2 px-3 block w-full bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder:text-gray-400
+                          focus:border-blue-500 focus:ring-blue-500 dark:bg-transparent dark:border-neutral-700
+                          dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                   placeholder="Dirección o ubicación" value="">
+          </div>
+        </div>
+
+        <!-- Campo: Desarrollo -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="Desarrollo" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Desarrollo
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <select id="Desarrollo"
+                    class="block w-full py-2 px-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-800
+                           dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                           appearance-none">
+              <option value="">Elige</option>
+              <option value="aloja">Aloja</option>
+              <option value="centenario">Centenario</option>
+              <option value="encanto">El Encanto Cozumel</option>
+              <option value="paraisomaya">Paraiso Maya</option>
+              <option value="puertomaya">Puerto Maya</option>
+              <option value="sanmarcos">San Marcos</option>
+              <option value="cielo">El Cielo</option>
+              <option value="vita">Vita</option>
+              <option value="vegadelmayab">Vega del Mayab</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Campo: Financiamiento -->
+        <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-x-5">
+          <div class="sm:col-span-3">
+            <label for="Financiamiento" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
+              Financiamiento
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <select id="Financiamiento"
+                    class="block w-full py-2 px-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-800
+                           dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                           appearance-none">
+              <option value="">Elige</option>
+              <option value="hipo">HIPOTECARIO</option>
+              <option value="info">INFONAVIT</option>
+              <option value="fovi">FOVISSTE</option>
+              <option value="contado">CONTADO</option>
+              <option value="bancario">BANCARIO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Botones -->
+      <div class="pt-4 flex justify-end gap-x-2">
+        <button type="button"
+                class="py-2 px-3 inline-flex justify-center items-center bg-white border border-gray-200 text-gray-800 text-sm font-medium rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                data-hs-overlay="#modal-editar-cliente">
+          Cancelar
+        </button>
+        <button type="button"
+                class="py-2 px-3 inline-flex justify-center items-center gap-x-2 bg-blue-600 border border-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-500">
+          Guardar
+        </button>
+      </div>
+      <!-- End Footer -->
+    </form>
+    <!-- End Formulario Nuevo Cliente -->
+  </div>
+</div>
+<!-- END MODAL NUEVO CLIENTE -->
+
+
+
+
+{% endblock %}
+
+

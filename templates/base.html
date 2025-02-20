@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Mi sitio{% endblock %}</title>
+    <!-- Enlace a tu CSS compilado (ajusta la ruta según tu proyecto) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/output.css') }}">
+    <!-- Script de Preline (ajusta la ruta si cambió en tu proyecto) -->
+    <script src="{{ url_for('serve_preline_js') }}"></script>
+  </head>
+  <!-- Fondo gris claro en todo el body -->
+  <body class="bg-[#f9fafb]">
+
+    <!-- ========== NAV SUPERIOR (VISIBLE EN MÓVILES) ========== -->
+    <header
+      class="lg:hidden fixed top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50
+             bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
+      <div class="flex justify-between basis-full items-center w-full py-2.5 px-2 sm:px-5">
+        <!-- Botón que muestra la sidebar en móvil -->
+        <button
+          type="button"
+          class="w-7 h-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-medium
+                 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm
+                 hover:bg-gray-50 focus:outline-none focus:bg-gray-100
+                 disabled:opacity-50 disabled:pointer-events-none
+                 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300
+                 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+          data-hs-overlay="#hs-pro-sidebar"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="hs-pro-sidebar"
+          aria-label="Toggle navigation">
+          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 8L21 12L17 16M3 12H13M3 6H13M3 18H13" />
+          </svg>
+        </button>
+        <!-- Fin Botón sidebar móvil -->
+
+        <!-- Ejemplo dropdown en top (opcional) -->
+        <div>
+          <div class="hs-dropdown [--auto-close:inside] relative flex">
+            <button
+              id="hs-pro-dnwpd"
+              type="button"
+              class="inline-flex items-center text-start font-semibold text-gray-800
+                     dark:text-white focus:outline-none"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-label="Dropdown">
+              Notion
+              <svg class="shrink-0 size-4 ms-1" xmlns="http://www.w3.org/2000/svg"
+                   width="24" height="24" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            <div
+              class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-56 transition-[opacity,margin] duration
+                     opacity-0 hidden z-20 bg-white rounded-xl shadow dark:shadow-[0_10px_40px_rgba(0,0,0,0.2)]
+                     dark:bg-neutral-900"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="hs-pro-dnwpd">
+              <div class="p-1 space-y-0.5">
+                <!-- Items de dropdown... -->
+                <a href="#" class="py-2 px-3 block bg-gray-100 rounded-lg focus:outline-none
+                                  dark:bg-neutral-800 dark:focus:bg-neutral-800">
+                  <p class="text-sm font-medium text-gray-800 dark:text-neutral-200">Notion</p>
+                  <p class="text-xs text-gray-500 dark:text-neutral-500">notion.so</p>
+                </a>
+                <!-- etc... -->
+              </div>
+              <div class="p-1 border-t border-gray-200 dark:border-neutral-800">
+                <button type="button"
+                        class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm
+                               text-gray-800 hover:bg-gray-100 dark:text-neutral-300
+                               dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                  Sign out
+                  <span class="ms-auto text-xs text-gray-500 dark:text-neutral-500">
+                    preline@site.com
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin ejemplo dropdown -->
+
+      </div>
+    </header>
+    <!-- ========== FIN NAV SUPERIOR MÓVILES ========== -->
+
+    <!-- ========== SIDEBAR (EN CAJA) ========== -->
+    <aside
+      id="hs-pro-sidebar"
+      class="hs-overlay [--auto-close:lg]
+             hs-overlay-open:translate-x-0
+             -translate-x-full transition-all duration-300 transform
+             w-[260px] hidden
+             fixed top-4 left-4 bottom-4 z-[60]
+             bg-white border border-gray-200
+             shadow-xl rounded-xl
+             lg:block lg:translate-x-0 lg:end-auto
+             dark:bg-neutral-800 dark:border-neutral-700
+             overflow-auto"
+      tabindex="-1"
+      aria-label="Sidebar">
+      <div class="relative flex flex-col h-full pt-3">
+        <!-- Encabezado de la sidebar -->
+        <header class="px-5 pe-2 lg:ps-8 flex items-center gap-x-1 mb-2">
+          <!-- Logo -->
+          <a class="flex-none rounded-md text-xl inline-block font-semibold
+                    focus:outline-none focus:opacity-80"
+             href="#"
+             aria-label="Preline">
+            <!-- Logo de ejemplo -->
+            <svg class="w-28 h-auto" width="116" height="32" viewBox="0 0 116 32"
+                 fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Paths de tu logotipo... -->
+              <path d="M33.5696 30.8182V11.3182H37.4474..." fill="currentColor" />
+              <path d="M1 29.5V16.5C1 9.87258..." stroke="currentColor" stroke-width="2"/>
+              <path d="M5 29.5V16.66C5..." stroke="currentColor" stroke-width="2"/>
+              <circle cx="13" cy="16.5214" r="5" fill="currentColor" />
+            </svg>
+          </a>
+          <!-- Fin Logo -->
+
+          <!-- Botón cerrar sidebar en móvil -->
+          <div class="lg:hidden ms-auto">
+            <button
+              type="button"
+              class="w-6 h-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium
+                     border border-gray-200 bg-white text-gray-500 hover:bg-gray-50
+                     focus:outline-none focus:bg-gray-100 disabled:opacity-50
+                     dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300
+                     dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              data-hs-overlay="#hs-pro-sidebar">
+              <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                   width="24" height="24" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="7 8 3 12 7 16"/>
+                <line x1="21" x2="11" y1="12" y2="12"/>
+                <line x1="21" x2="11" y1="6" y2="6"/>
+                <line x1="21" x2="11" y1="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Fin botón cerrar -->
+        </header>
+
+        <!-- Contenido scrollable del sidebar -->
+        <div class="px-2 lg:px-5 pb-3">
+          <nav class="hs-accordion-group w-full flex flex-col space-y-1"
+               data-hs-accordion-always-open>
+            <!-- Ejemplo link 1 -->
+            <ul class="flex flex-col gap-y-1">
+              <li>
+                <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800
+                          rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100
+                          dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700
+                          bg-gray-100 dark:bg-neutral-700"
+                   href="#">
+                  <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg"
+                       width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                  Dashboard
+                </a>
+              </li>
+
+              <!-- Ejemplo link con submenú -->
+              <li class="hs-accordion" id="users-accordion">
+                <button
+                  type="button"
+                  class="hs-accordion-toggle hs-accordion-active:bg-gray-100
+                         w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800
+                         rounded-lg hover:bg-gray-100 disabled:opacity-50
+                         dark:hs-accordion-active:bg-neutral-700 focus:outline-none
+                         focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300
+                         dark:focus:bg-neutral-700"
+                  aria-expanded="false"
+                  aria-controls="users-accordion-sub">
+                  <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg"
+                       width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  Clientes
+                  <svg
+                    class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24"
+                    viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </button>
+                <div
+                  id="users-accordion-sub"
+                  class="hs-accordion-content w-full overflow-hidden
+                         transition-[height] duration-300"
+                  role="region"
+                  aria-labelledby="users-accordion"
+                  style="display: none;">
+                  <ul class="ps-7 mt-1.5 space-y-1.5 relative
+                             before:absolute before:top-0 before:start-[18px]
+                             before:w-0.5 before:h-full before:bg-gray-100
+                             dark:before:bg-neutral-700">
+                    <li>
+                      <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800
+                                rounded-lg hover:bg-gray-100 focus:outline-none
+                                dark:hover:bg-neutral-700 dark:text-neutral-300"
+                         href="#">
+                        Administrar
+                      </a>
+                    </li>
+                    <li>
+                      <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800
+                                rounded-lg hover:bg-gray-100 focus:outline-none
+                                dark:hover:bg-neutral-700 dark:text-neutral-300"
+                         href="#">
+                        Descuentos
+                      </a>
+                    </li>
+                    <li>
+                        <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800
+                                  rounded-lg hover:bg-gray-100 focus:outline-none
+                                  dark:hover:bg-neutral-700 dark:text-neutral-300"
+                           href="#">
+                          Anticipos
+                        </a>
+                      </li>
+                  </ul>
+                </div>
+              </li>
+              <!-- Fin link con submenú -->
+
+              <!-- Otros links de ejemplo -->
+              <li>
+                <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800
+                          rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100
+                          dark:hover:bg-neutral-700 dark:text-neutral-300
+                          dark:focus:bg-neutral-700"
+                   href="#">
+                  <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg"
+                       width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  Periodos
+                </a>
+              </li>
+              
+              <li>
+                <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800
+                          rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100
+                          dark:hover:bg-neutral-700 dark:text-neutral-300
+                          dark:focus:bg-neutral-700"
+                   href="#">
+                  <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg"
+                       width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="2" y1="9" x2="22" y2="9"></line>
+                  </svg>
+                  Pagos
+                </a>
+              </li>
+              
+              <li>
+                <a class="flex gap-x-3 py-2 px-3 text-sm text-gray-800
+                          rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100
+                          dark:hover:bg-neutral-700 dark:text-neutral-300
+                          dark:focus:bg-neutral-700"
+                   href="#">
+                  <svg class="shrink-0 mt-0.5 size-4 text-blue-600 dark:text-blue-500"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24" height="24"
+                       viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="m16 12-4-4-4 4"/>
+                    <path d="M12 16V8"/>
+                  </svg>
+                  <span class="bg-clip-text bg-gradient-to-tr
+                               from-blue-600 to-purple-600 to-80%
+                               text-transparent dark:from-blue-500
+                               dark:to-purple-500">
+                    Layout
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- Fin contenido scrollable -->
+
+        <!-- Footer de la sidebar (opcional) -->
+        <footer class="mt-auto border-t border-gray-200 dark:border-neutral-700 px-5 py-3 hidden lg:block">
+          <!-- Ejemplo de dropdown en footer -->
+          <button
+            type="button"
+            class="group w-full inline-flex items-center py-2 text-start text-gray-800
+                   dark:text-white"
+            aria-haspopup="menu"
+            aria-expanded="false">
+            <svg class="size-8 shrink-0" width="32" height="32"
+                 viewBox="0 0 32 32" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <!-- icon... -->
+              <path d="..." class="fill-black dark:fill-neutral-200"/>
+              <path d="..." class="fill-black dark:fill-neutral-200"/>
+            </svg>
+            <span class="block ms-3">
+              <span class="block text-sm font-medium text-gray-800 group-hover:text-blue-600
+                           dark:text-neutral-200 dark:group-hover:text-blue-600">
+                VIVO
+              </span>
+              <span class="block text-xs text-gray-500 dark:text-neutral-500">
+                VIVO.mx
+              </span>
+            </span>
+            <svg class="shrink-0 size-3.5 ms-auto"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24"
+                 viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="m7 15 5 5 5-5"/>
+              <path d="m7 9 5-5 5 5"/>
+            </svg>
+          </button>
+        </footer>
+        <!-- Fin Footer -->
+      </div>
+    </aside>
+    <!-- ========== FIN SIDEBAR ========== -->
+
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
+    <!-- Dejamos margen-left para no quedar debajo de la sidebar en escritorio. -->
+    <main id="content" class="lg:ml-[300px] pt-[59px]">
+      <!-- Caja blanca que encierra el contenido, con margen para que se vea el fondo alrededor -->
+      <div class="m-4 bg-white p-4 rounded-xl shadow">
+        {% block content %}
+        <!-- Aquí va el contenido dinámico de cada página hija -->
+        {% endblock %}
+      </div>
+    </main>
+    <!-- ========== FIN CONTENIDO PRINCIPAL ========== -->
+
+  </body>
+</html>
