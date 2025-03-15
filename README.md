@@ -39,5 +39,5 @@ Run Tailwind CSS(if you plan to edit HTML templates):
 
 ```bash
 cd C:\flask-preline
-npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch
+npx tailwindcss -i ./static/src/input.css -o ./static/dist/output.css --watch
 ```
