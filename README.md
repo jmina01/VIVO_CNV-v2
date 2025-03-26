@@ -6,14 +6,13 @@ Clone project repository:
 
 ```bash
 git clone https://github.com/nicholasikiroma/flask-preline.git
-cd C:\flask-preline
+cd C:\convivencia
 ```
 
 Create and activate virtual environment:
 
 ```bash
 virtualenv venv
-source venv/bin/activate
 .\venv\Scripts\Activate
 ```
 
@@ -38,6 +37,6 @@ flask run --debug
 Run Tailwind CSS(if you plan to edit HTML templates):
 
 ```bash
-cd C:\flask-preline
+cd C:\convivencia
 npx tailwindcss -i ./static/src/input.css -o ./static/dist/output.css --watch
 ```
