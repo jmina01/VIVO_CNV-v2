@@ -6,7 +6,7 @@ Clone project repository:
 
 ```bash
 git clone https://github.com/nicholasikiroma/flask-preline.git
-cd D:\convivencia
+cd /d D:\convivencia
 ```
 
 Create and activate virtual environment:
@@ -37,6 +37,6 @@ flask run --debug
 Run Tailwind CSS(if you plan to edit HTML templates):
 
 ```bash
-cd D:\convivencia
+cd /d D:\convivencia
 npx tailwindcss -i ./static/src/input.css -o ./static/dist/output.css --watch
 ```
