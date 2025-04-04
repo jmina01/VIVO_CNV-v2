@@ -5,7 +5,7 @@
 Clone project repository:
 
 ```bash
-git clone https://github.com/nicholasikiroma/flask-preline.git
+
 cd /d D:\convivencia
 ```
 
