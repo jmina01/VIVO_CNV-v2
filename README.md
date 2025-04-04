@@ -14,6 +14,7 @@ Create and activate virtual environment:
 ```bash
 virtualenv venv
 .\venv\Scripts\Activate
+D:\convivencia\venv\Scripts\activate
 ```
 
 Install Python dependencies:
