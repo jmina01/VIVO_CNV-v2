@@ -14,7 +14,7 @@ Create and activate virtual environment:
 ```bash
 virtualenv venv
 .\venv\Scripts\Activate
-D:\convivencia\venv\Scripts\activate
+
 ```
 
 Install Python dependencies:
@@ -41,3 +41,17 @@ Run Tailwind CSS(if you plan to edit HTML templates):
 cd /d D:\convivencia
 npx tailwindcss -i ./static/src/input.css -o ./static/dist/output.css --watch
 ```
+
+
+
+cd /d D:\convivencia
+rmdir /s /q "D:\convivencia\venv"
+cd D:\convivencia
+virtualenv venv
+D:\convivencia\venv\Scripts\activate
+pip install flask
+pip install pyodbc
+pip install pandas
+pip install reportlab
+
+flask run --debug
